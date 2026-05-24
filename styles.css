@@ -146,7 +146,7 @@ input {
 
 .workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
+  grid-template-columns: minmax(0, 1fr) 300px;
   gap: 18px;
   padding: 18px;
 }
@@ -214,22 +214,23 @@ button:disabled {
 
 .question-frame {
   min-height: 0;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: auto;
   background: #f8fafc;
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 8px;
+  padding: 10px;
 }
 
 #questionImage {
   display: block;
+  width: min(100%, 980px);
   max-width: 100%;
-  max-height: calc(100vh - 258px);
-  width: auto;
+  max-height: none;
   height: auto;
-  object-fit: contain;
+  object-fit: scale-down;
 }
 
 .answer-buttons {
@@ -251,7 +252,7 @@ button:disabled {
 }
 
 .answer-sheet {
-  padding: 24px;
+  padding: 18px;
   overflow: auto;
 }
 

@@ -11,7 +11,11 @@ QUESTIONS_PDF = Path(
 )
 OUT = ROOT / "assets" / "questions"
 
-SCALE = 2.0
+SCALE = 3.5
+
+
+def sc(value):
+    return int(round(value * SCALE / 2.0))
 
 
 def render_page(doc, page_index):
@@ -28,8 +32,8 @@ def find_question_headers(img):
         r, g, b = px[x, y]
         return r < 55 and g < 55 and b < 55
 
-    for y in range(80, height - 120):
-        for x in range(40, width - 40):
+    for y in range(sc(80), height - sc(120)):
+        for x in range(sc(40), width - sc(40)):
             if (x, y) in visited or not is_dark(x, y):
                 continue
 
@@ -43,7 +47,7 @@ def find_question_headers(img):
                 xs.append(cx)
                 ys.append(cy)
                 for nx, ny in ((cx + 1, cy), (cx - 1, cy), (cx, cy + 1), (cx, cy - 1)):
-                    if nx < 40 or nx >= width - 40 or ny < 80 or ny >= height - 120:
+                    if nx < sc(40) or nx >= width - sc(40) or ny < sc(80) or ny >= height - sc(120):
                         continue
                     if (nx, ny) in visited:
                         continue
@@ -58,15 +62,15 @@ def find_question_headers(img):
             area = bw * bh
             fill = len(xs) / area
 
-            if 28 <= bw <= 70 and 24 <= bh <= 46 and fill > 0.42 and y0 < 1150:
-                if 45 <= x0 <= 140 or 600 <= x0 <= 705:
+            if sc(28) <= bw <= sc(70) and sc(24) <= bh <= sc(46) and fill > 0.42 and y0 < sc(1150):
+                if sc(45) <= x0 <= sc(140) or sc(600) <= x0 <= sc(705):
                     headers.append({"x0": x0, "x1": x1, "y0": y0, "y1": y1})
 
     # Merge accidental duplicate components close to the same header.
     headers.sort(key=lambda h: (h["y0"], h["x0"]))
     merged = []
     for h in headers:
-        if merged and abs(h["x0"] - merged[-1]["x0"]) < 8 and abs(h["y0"] - merged[-1]["y0"]) < 8:
+        if merged and abs(h["x0"] - merged[-1]["x0"]) < sc(8) and abs(h["y0"] - merged[-1]["y0"]) < sc(8):
             continue
         merged.append(h)
     return merged
@@ -152,19 +156,19 @@ def crop_questions():
             same_col_next = [
                 other
                 for other in items
-                if other["page"] == item["page"] and other["col"] == item["col"] and other["y0"] > item["y0"] + 20
+            if other["page"] == item["page"] and other["col"] == item["col"] and other["y0"] > item["y0"] + sc(20)
             ]
             if item["col"] == "left":
-                x0, x1 = max(0, item["x0"] - 8), 605
+                x0, x1 = max(0, item["x0"] - sc(8)), sc(605)
             else:
-                x0, x1 = max(0, item["x0"] - 8), 1155
-            y0 = max(0, item["y0"] - 8)
+                x0, x1 = max(0, item["x0"] - sc(8)), sc(1155)
+            y0 = max(0, item["y0"] - sc(8))
             if same_col_next:
-                y1 = min(other["y0"] for other in same_col_next) - 16
+                y1 = min(other["y0"] for other in same_col_next) - sc(16)
             else:
-                y1 = 1230 if module == "module1" and index == 27 else 1360
+                y1 = sc(1230) if module == "module1" and index == 27 else sc(1360)
 
-            crop = item["img"].crop((x0, y0, x1, min(y1, item["img"].height - 110)))
+            crop = item["img"].crop((x0, y0, x1, min(y1, item["img"].height - sc(110))))
             crop = trim_question(crop)
             crop.save(OUT / module / f"q{index:02d}.png", optimize=True)
             print(module, index, item["page"] + 1, item["col"], crop.size)
