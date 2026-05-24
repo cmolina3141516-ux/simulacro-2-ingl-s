@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en" translate="no" class="notranslate">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google" content="notranslate" />
+    <title>SAT Reading and Writing Practice Test 2</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="notranslate" translate="no">
+    <main id="app" class="app-shell">
+      <section id="startScreen" class="start-screen">
+        <div class="start-panel">
+          <p class="eyebrow">SAT Reading and Writing</p>
+          <h1>Practice Test 2</h1>
+          <p class="start-copy">
+            This test has two timed modules. Each module has 27 questions and 32 minutes.
+          </p>
+          <form id="studentForm" class="student-form">
+            <label>
+              Student name
+              <input id="studentName" name="studentName" autocomplete="name" required />
+            </label>
+            <label>
+              Student email or ID
+              <input id="studentId" name="studentId" autocomplete="email" required />
+            </label>
+            <button type="submit" class="primary-button">Start Module 1</button>
+          </form>
+        </div>
+      </section>
+
+      <section id="testScreen" class="test-screen" hidden>
+        <header class="topbar">
+          <div>
+            <p id="moduleLabel" class="eyebrow">Module 1</p>
+            <h2 id="moduleTitle">Reading and Writing</h2>
+          </div>
+          <div class="timer" aria-live="polite">
+            <span>Time Remaining</span>
+            <strong id="timerText">32:00</strong>
+          </div>
+        </header>
+
+        <div class="workspace">
+          <section class="question-pane">
+            <div class="question-toolbar">
+              <button id="prevBtn" type="button" class="nav-button">Previous</button>
+              <span id="questionCounter">Question 1 of 27</span>
+              <button id="nextBtn" type="button" class="nav-button">Next</button>
+            </div>
+            <div class="question-frame">
+              <img id="questionImage" alt="Question image" draggable="false" />
+            </div>
+            <div id="answerButtons" class="answer-buttons" aria-label="Answer choices"></div>
+          </section>
+
+          <aside class="answer-sheet">
+            <p class="eyebrow">Answer Sheet</p>
+            <h3>Question Navigator</h3>
+            <div id="questionGrid" class="question-grid"></div>
+            <button id="moduleActionBtn" type="button" class="primary-button wide-button">
+              Finish Module 1
+            </button>
+          </aside>
+        </div>
+      </section>
+
+      <section id="doneScreen" class="done-screen" hidden>
+        <div class="start-panel">
+          <p class="eyebrow">Submission Complete</p>
+          <h1>Your answers were submitted.</h1>
+          <p id="submissionMessage" class="start-copy">
+            Your instructor will review your results.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
