@@ -18,6 +18,7 @@
 body {
   margin: 0;
   min-height: 100vh;
+  overflow: hidden;
   background: var(--bg);
   color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
@@ -91,6 +92,11 @@ h3 {
   margin-top: 24px;
 }
 
+.module-start-panel .primary-button {
+  width: 100%;
+  margin-top: 12px;
+}
+
 label {
   display: grid;
   gap: 8px;
@@ -109,9 +115,10 @@ input {
 }
 
 .test-screen {
-  min-height: 100vh;
+  height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr;
+  overflow: hidden;
 }
 
 .topbar {
@@ -149,6 +156,8 @@ input {
   grid-template-columns: minmax(0, 1fr) 300px;
   gap: 18px;
   padding: 18px;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .question-pane,
@@ -163,6 +172,7 @@ input {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
   min-height: 0;
+  overflow: hidden;
   padding: 18px;
 }
 
@@ -215,29 +225,29 @@ button:disabled {
 .question-frame {
   min-height: 0;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  overflow: auto;
+  overflow: hidden;
   background: #f8fafc;
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 10px;
+  padding: 8px;
 }
 
 #questionImage {
   display: block;
-  width: min(100%, 980px);
+  width: auto;
   max-width: 100%;
-  max-height: none;
+  max-height: 100%;
   height: auto;
-  object-fit: scale-down;
+  object-fit: contain;
 }
 
 .answer-buttons {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
-  padding-top: 12px;
+  padding-top: 10px;
 }
 
 .choice-button {
@@ -283,6 +293,20 @@ button:disabled {
 }
 
 @media (max-width: 980px) {
+  body {
+    overflow: auto;
+  }
+
+  .test-screen {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  .workspace {
+    overflow: visible;
+  }
+
   .workspace {
     grid-template-columns: 1fr;
   }
@@ -296,6 +320,6 @@ button:disabled {
   }
 
   #questionImage {
-    max-height: calc(100vh - 310px);
+    max-height: calc(100vh - 300px);
   }
 }
