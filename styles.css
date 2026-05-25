@@ -15,10 +15,13 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
-  overflow: hidden;
   background: var(--bg);
   color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
@@ -92,11 +95,6 @@ h3 {
   margin-top: 24px;
 }
 
-.module-start-panel .primary-button {
-  width: 100%;
-  margin-top: 12px;
-}
-
 label {
   display: grid;
   gap: 8px;
@@ -115,10 +113,9 @@ input {
 }
 
 .test-screen {
-  height: 100vh;
+  min-height: 100vh;
   display: grid;
-  grid-template-rows: auto 1fr;
-  overflow: hidden;
+  grid-template-rows: auto minmax(0, 1fr);
 }
 
 .topbar {
@@ -157,7 +154,6 @@ input {
   gap: 18px;
   padding: 18px;
   min-height: 0;
-  overflow: hidden;
 }
 
 .question-pane,
@@ -172,7 +168,7 @@ input {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
   min-height: 0;
-  overflow: hidden;
+  height: calc(100vh - 106px);
   padding: 18px;
 }
 
@@ -293,22 +289,13 @@ button:disabled {
 }
 
 @media (max-width: 980px) {
-  body {
-    overflow: auto;
-  }
-
-  .test-screen {
-    height: auto;
-    min-height: 100vh;
-    overflow: visible;
-  }
-
-  .workspace {
-    overflow: visible;
-  }
-
   .workspace {
     grid-template-columns: 1fr;
+  }
+
+  .question-pane {
+    height: auto;
+    min-height: 0;
   }
 
   .answer-sheet {

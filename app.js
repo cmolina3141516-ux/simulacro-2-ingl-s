@@ -35,7 +35,6 @@ const state = {
 
 const els = {
   startScreen: document.getElementById("startScreen"),
-  moduleStartScreen: document.getElementById("moduleStartScreen"),
   testScreen: document.getElementById("testScreen"),
   doneScreen: document.getElementById("doneScreen"),
   studentForm: document.getElementById("studentForm"),
@@ -51,7 +50,6 @@ const els = {
   prevBtn: document.getElementById("prevBtn"),
   nextBtn: document.getElementById("nextBtn"),
   moduleActionBtn: document.getElementById("moduleActionBtn"),
-  startModule2Btn: document.getElementById("startModule2Btn"),
   submissionMessage: document.getElementById("submissionMessage"),
 };
 
@@ -147,24 +145,12 @@ function unansweredCount(moduleId) {
   return state.answers[moduleId].filter((answer) => !answer).length;
 }
 
-function showOnly(screen) {
-  [els.startScreen, els.moduleStartScreen, els.testScreen, els.doneScreen].forEach((item) => {
-    item.hidden = item !== screen;
-  });
-}
-
-function startCurrentModule() {
-  state.questionIndex = 0;
-  state.secondsLeft = CONFIG.moduleSeconds;
-  showOnly(els.testScreen);
-  renderQuestion();
-  startTimer();
-}
-
 function goToNextModule() {
   state.moduleIndex = 1;
-  clearInterval(state.timerId);
-  showOnly(els.moduleStartScreen);
+  state.questionIndex = 0;
+  state.secondsLeft = CONFIG.moduleSeconds;
+  renderQuestion();
+  startTimer();
 }
 
 function handleModuleTimeExpired() {
@@ -222,7 +208,8 @@ async function submitTest() {
   clearInterval(state.timerId);
   const payload = buildPayload();
 
-  showOnly(els.doneScreen);
+  els.testScreen.hidden = true;
+  els.doneScreen.hidden = false;
 
   if (!CONFIG.scriptUrl) {
     els.submissionMessage.textContent =
@@ -250,11 +237,11 @@ els.studentForm.addEventListener("submit", (event) => {
   state.studentName = els.studentName.value.trim();
   state.studentId = els.studentId.value.trim();
   state.startedAt = new Date().toISOString();
-  state.moduleIndex = 0;
-  startCurrentModule();
+  els.startScreen.hidden = true;
+  els.testScreen.hidden = false;
+  renderQuestion();
+  startTimer();
 });
-
-els.startModule2Btn.addEventListener("click", startCurrentModule);
 
 els.prevBtn.addEventListener("click", () => {
   state.questionIndex = Math.max(0, state.questionIndex - 1);
